@@ -52,5 +52,5 @@ spec:
       volumes:
       - name: transmission-config
         persistentVolumeClaim:
-          claimName: pv-transmission-config
+          claimName: pvc-transmission-config
           readOnly: false
