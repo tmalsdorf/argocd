@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: transmission
+  name: transmission
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: transmission
+  template:
+    metadata:
+      labels:
+        run: transmission
+    spec:
+      containers:    
+      - name: transmission
+        image: linuxserver/transmission
+        env:
+        - name: TZ
+          value: America/Chicago
+        - name: PUID
+          value: "1026"
+        - name: PGID
+          value: "1026"
+        - name: WHITELIST
+          value: ""
+        - name: HOST_WHITELIST
+          value: ""
+        ports:
+        - containerPort: 9091
+          name: webui
+          protocol: TCP
+        - containerPort: 51413
+          name: torrent-tcp
+          protocol: TCP
+        - containerPort: 51413
+          name: torrent-udp
+          protocol: UDP
+        resources: {}
+        volumeMounts: 
+        - name: config 
+          mountPath: /config 
+    volumes:
+    - name: config
+      persistentVolumeClaim:
+        claimName: pv-transmission-config
+        readOnly: false

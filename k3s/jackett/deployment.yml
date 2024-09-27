@@ -21,11 +21,11 @@ spec:
             - containerPort: 9117
           env:
             - name: PUID
-              value: "1000"  # Set appropriate user ID
+              value: "1026"  # Set appropriate user ID
             - name: PGID
-              value: "1000"  # Set appropriate group ID
+              value: "1026"  # Set appropriate group ID
             - name: TZ
-              value: "America/New_York"  # Set your timezone
+              value: "America/Chicago"  # Set your timezone
           volumeMounts:
             - name: config
               mountPath: /config
@@ -39,4 +39,4 @@ spec:
       volumes:
         - name: config
           persistentVolumeClaim:
-            claimName: jackett-pvc  # You can define a PVC if necessary
+            claimName: pvc-jackett-config  # You can define a PVC if necessary

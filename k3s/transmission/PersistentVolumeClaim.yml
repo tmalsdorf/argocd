@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-jackett-config
+  name: pv-transmission-config
 spec:
   accessModes:
     - ReadWriteMany
   resources:
     requests:
       storage: 100Mi
-  volumeName: pv-jackett-config
+  volumeName: pv-transmission-config
