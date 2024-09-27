@@ -41,10 +41,10 @@ spec:
           protocol: UDP
         resources: {}
         volumeMounts: 
-        - name: config 
+        - name: transmission-config 
           mountPath: /config 
     volumes:
-    - name: config
+    - name: transmission-config
       persistentVolumeClaim:
         claimName: pv-transmission-config
         readOnly: false
