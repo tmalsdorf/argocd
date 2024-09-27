@@ -27,7 +27,7 @@ spec:
             - name: TZ
               value: "America/Chicago"  # Set your timezone
           volumeMounts:
-            - name: config
+            - name: jackett-config
               mountPath: /config
           resources:
             requests:
@@ -37,6 +37,6 @@ spec:
               memory: "512Mi"   # Maximum memory the container can use
               cpu: "500m"       # Maximum CPU the container can use
       volumes:
-        - name: config
+        - name: jackett-config
           persistentVolumeClaim:
             claimName: pvc-jackett-config  # You can define a PVC if necessary
