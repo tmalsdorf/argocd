@@ -2,49 +2,55 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: transmission-deployment
   labels:
-    run: transmission
-  name: transmission
+    app: transmission
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: transmission
+      app: transmission
   template:
     metadata:
       labels:
-        run: transmission
+        app: transmission
     spec:
       containers:    
-      - name: transmission
-        image: linuxserver/transmission
-        env:
-        - name: TZ
-          value: America/Chicago
-        - name: PUID
-          value: "1026"
-        - name: PGID
-          value: "1026"
-        - name: WHITELIST
-          value: ""
-        - name: HOST_WHITELIST
-          value: ""
-        ports:
-        - containerPort: 9091
-          name: webui
-          protocol: TCP
-        - containerPort: 51413
-          name: torrent-tcp
-          protocol: TCP
-        - containerPort: 51413
-          name: torrent-udp
-          protocol: UDP
-        resources: {}
-        volumeMounts: 
-        - name: transmission-config 
-          mountPath: /config 
-    volumes:
-    - name: transmission-config
-      persistentVolumeClaim:
-        claimName: pv-transmission-config
-        readOnly: false
+        - name: transmission
+          image: linuxserver/transmission
+          ports:
+          - containerPort: 9091
+            name: webui
+            protocol: TCP
+          - containerPort: 51413
+            name: torrent-tcp
+            protocol: TCP
+          - containerPort: 51413
+            name: torrent-udp
+            protocol: UDP
+          env:
+          - name: TZ
+            value: America/Chicago
+          - name: PUID
+            value: "1026"
+          - name: PGID
+            value: "1026"
+          - name: WHITELIST
+            value: ""
+          - name: HOST_WHITELIST
+            value: ""
+          volumeMounts: 
+          - name: transmission-config 
+            mountPath: /config 
+          resources: 
+            requests:
+              memory: "256Mi"   # Minimum amount of memory the container needs
+              cpu: "250m"       # Minimum amount of CPU the container needs
+            limits:
+              memory: "512Mi"   # Maximum memory the container can use
+              cpu: "500m"       # Maximum CPU the container can use
+      volumes:
+      - name: transmission-config
+        persistentVolumeClaim:
+          claimName: pv-transmission-config
+          readOnly: false
