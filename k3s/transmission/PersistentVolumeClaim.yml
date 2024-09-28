@@ -10,3 +10,4 @@ spec:
     requests:
       storage: 100Mi
   volumeName: pv-transmission-config
+  storageClassName: ""
