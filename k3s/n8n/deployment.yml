@@ -3,33 +3,44 @@ kind: Deployment
 metadata:
   name: n8n-deployment
   namespace: n8n
-  labels:
+  labels: &labels
     app: n8n
+    component: deployment
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: n8n
+    matchLabels: *labels
   template:
     metadata:
-      labels:
-        app: n8n
+      labels: *labels
     spec:
       containers:
-        - name: n8n
-          image: docker.n8n.io/n8nio/n8n
-          ports:
-            - containerPort: 5678
-          volumeMounts:
-            - mountPath: "/home/node/.n8n"
-              name: n8n-volume
-          resources:
-            requests:
-              memory: "512Mi"  # Minimum memory required to run the container
-              cpu: "250m"      # Minimum CPU required to run the container
-            limits:
-              memory: "2Gi"    # Maximum memory allowed
-              cpu: "1000m"     # Maximum CPU allowed
+      - name: n8n
+        image: n8nio/n8n:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 5678
+        envFrom:
+        - configMapRef:
+            name: n8n-configmap
+        - secretRef:
+            name: n8n-secrets
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 5678
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 5678
+        resources:
+          limits:
+            cpu: "1.0"
+            memory: "1024Mi"
+          requests:
+            cpu: "0.5"
+            memory: "512Mi"
       volumes:
         - name: n8n-volume
           persistentVolumeClaim:
