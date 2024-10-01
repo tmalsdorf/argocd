@@ -29,6 +29,8 @@ spec:
           volumeMounts:
             - name: radarr-config
               mountPath: /config
+            - name: movies
+              mountPath: /movies
           resources:
             requests:
               memory: "256Mi"   # Minimum amount of memory the container needs
@@ -40,3 +42,6 @@ spec:
         - name: radarr-config
           persistentVolumeClaim:
             claimName: pvc-radarr-config  # You can define a PVC if necessary
+        - name: movies
+          persistentVolumeClaim:
+            claimName: pvc-movies
