@@ -58,5 +58,5 @@ spec:
           readOnly: false
       - name: downloads
         persistentVolumeClaim:
-          claimName: pvc-downloads
+          claimName: pvc-torrents
           readOnly: false
