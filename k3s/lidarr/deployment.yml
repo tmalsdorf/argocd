@@ -29,6 +29,8 @@ spec:
           volumeMounts:
             - name: lidarr-config
               mountPath: /config
+            - name: music
+              mountPath: /music
           resources:
             requests:
               memory: "256Mi"   # Minimum amount of memory the container needs
@@ -40,3 +42,6 @@ spec:
         - name: lidarr-config
           persistentVolumeClaim:
             claimName: pvc-lidarr-config  # You can define a PVC if necessary
+        - name: music
+          persistentVolumeClaim:
+            claimName: pvc-music

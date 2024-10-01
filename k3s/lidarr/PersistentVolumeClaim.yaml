@@ -11,3 +11,17 @@ spec:
       storage: 100Mi  
   volumeName: pv-lidarr-config
   storageClassName: ""
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-music
+  namespace: mediamaven
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Ti
+  volumeName: pv-music
+  storageClassName: ""
