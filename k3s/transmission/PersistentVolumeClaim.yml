@@ -11,3 +11,19 @@ spec:
       storage: 100Mi
   volumeName: pv-transmission-config
   storageClassName: ""
+
+# need a place to store the downloads
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-torrents
+  namespace: mediamaven
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Ti
+  volumeName: pv-torrents
+  storageClassName: ""
