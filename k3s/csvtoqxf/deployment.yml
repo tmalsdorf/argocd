@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: csvtoqxf-deployment
+  labels:
+    app: csvtoqxf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: csvtoqxf
+  template:
+    metadata:
+      labels:
+        app: csvtoqxf
+    spec:
+      containers:
+      - name: csvtoqxf
+        image: terryalsdorf/csvtoqxf:latest
+        ports:
+        - containerPort: 80
