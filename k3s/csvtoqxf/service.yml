@@ -8,5 +8,5 @@ spec:
   ports:
     - protocol: TCP
       port: 8314       # Service port
-      targetPort: 80 # Container port
+      targetPort: 5000 # Container port
   type: ClusterIP
