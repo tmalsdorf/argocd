@@ -22,10 +22,7 @@ spec:
         - containerPort: 8080
         env:
         - name: OLLAMA_BASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: open-webui-config
-              key: OLLAMA_BASE_URL
+          value: http://ollama.default.svc.cluster.local:11434
         volumeMounts:
         - name: data
           mountPath: /app/backend/data
@@ -72,13 +69,13 @@ metadata:
   name: open-webui
   namespace: default
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
-  - host: webui.yourdomain.com  # Replace with your actual domain
-    http:
+  - http:
       paths:
-      - path: /
+      - path: /openwebui(/|$)(.*)
         pathType: Prefix
         backend:
           service:
