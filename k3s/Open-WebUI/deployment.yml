@@ -22,7 +22,10 @@ spec:
         - containerPort: 8080
         env:
         - name: OLLAMA_BASE_URL
-          value: http://ollama.default.svc.cluster.local:11434
+          valueFrom:
+            secretKeyRef:
+              name: open-webui-config
+              key: OLLAMA_BASE_URL
         volumeMounts:
         - name: data
           mountPath: /app/backend/data
