@@ -80,13 +80,13 @@ metadata:
   name: open-webui
   namespace: webui
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/use-regex: "true"
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.rule: PathPrefix(`/openwebui`)
 spec:
   rules:
   - http:
       paths:
-      - path: /openwebui(/|$)(.*)
+      - path: /openwebui
         pathType: Prefix
         backend:
           service:
