@@ -25,3 +25,17 @@ spec:
       storage: 12Ti
   volumeName: pv-tv-shows
   storageClassName: ""
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-downloads
+  namespace: mediamaven
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Ti
+  volumeName: pv-downloads
+  storageClassName: ""

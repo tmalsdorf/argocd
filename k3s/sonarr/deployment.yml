@@ -31,6 +31,8 @@ spec:
               mountPath: /config
             - name: tvshows
               mountPath: /tvshows
+            - name: downloads
+              mountPath: /downloads
           resources:
             requests:
               memory: "512Mi"   # Minimum amount of memory the container needs
@@ -45,3 +47,7 @@ spec:
         - name: tvshows
           persistentVolumeClaim:
             claimName: pvc-tv-shows
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: pvc-downloads
+            readOnly: false
