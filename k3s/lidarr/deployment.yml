@@ -31,6 +31,8 @@ spec:
               mountPath: /config
             - name: music
               mountPath: /music
+            - name: downloads
+              mountPath: /downloads
           resources:
             requests:
               memory: "256Mi"   # Minimum amount of memory the container needs
@@ -45,3 +47,7 @@ spec:
         - name: music
           persistentVolumeClaim:
             claimName: pvc-music
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: pvc-torrents
+            readOnly: true
