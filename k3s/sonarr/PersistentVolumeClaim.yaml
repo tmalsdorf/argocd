@@ -33,7 +33,7 @@ metadata:
   namespace: mediamaven
 spec:
   accessModes:
-    - ReadOnlyMany
+    - ReadWriteMany
   resources:
     requests:
       storage: 10Ti
