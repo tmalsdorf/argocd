@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: lidarr-deployment
+  namespace: mediamaven
   labels:
     app: lidarr
 spec:
@@ -18,7 +19,7 @@ spec:
         - name: lidarr
           image: linuxserver/lidarr:latest
           ports:
-            - containerPort: 9117
+            - containerPort: 8686
           env:
             - name: PUID
               value: "1026"  # Set appropriate user ID
