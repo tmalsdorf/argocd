@@ -29,7 +29,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-downloads-sonarr
+  name: pvc-torrents
   namespace: mediamaven
 spec:
   accessModes:
