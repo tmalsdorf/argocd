@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: transmission-deployment
+  namespace: mediamaven
   labels:
     app: transmission
 spec:
