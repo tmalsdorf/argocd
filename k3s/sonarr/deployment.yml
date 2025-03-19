@@ -49,5 +49,5 @@ spec:
             claimName: pvc-tv-shows
         - name: downloads
           persistentVolumeClaim:
-            claimName: pvc-downloads-sonarr
+            claimName: pvc-torrents
             readOnly: true
