@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: mediamaven
   name: radarr-service
   labels:
     app: radarr
