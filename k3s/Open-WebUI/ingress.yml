@@ -7,6 +7,7 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
     traefik.ingress.kubernetes.io/router.rule: PathPrefix(`/openwebui`)
+    traefik.ingress.kubernetes.io/router.middlewares: webui-strip
 spec:
   ingressClassName: traefik
   rules:
@@ -19,3 +20,13 @@ spec:
             name: open-webui
             port:
               number: 8080
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: webui-strip
+  namespace: webui
+spec:
+  stripPrefix:
+    prefixes:
+      - /openwebui
