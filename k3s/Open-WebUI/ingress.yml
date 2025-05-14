@@ -6,7 +6,7 @@ metadata:
   namespace: webui
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
-    traefik.ingress.kubernetes.io/router.rule: PathPrefix(`/openwebui`)
+#    traefik.ingress.kubernetes.io/router.rule: PathPrefix(`/openwebui`)
 spec:
   ingressClassName: traefik
   rules:
