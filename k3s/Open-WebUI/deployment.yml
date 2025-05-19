@@ -35,7 +35,7 @@ spec:
         - name: OLLAMA_BASE_URL
           value: http://ollama.default.svc.cluster.local:11434
         - name: WEBUI_BASE_PATH
-          value: /openwebui 
+          value: "/openwebui"
         volumeMounts:
         - name: data
           mountPath: /app/backend/data
