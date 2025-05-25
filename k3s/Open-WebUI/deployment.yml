@@ -29,6 +29,11 @@ spec:
       containers:
       - name: open-webui
         image: ghcr.io/open-webui/open-webui:main
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1001 # Example non-root user ID, adjust if image uses a different UID or for volume permissions
+          runAsGroup: 1001 # Example non-root group ID, adjust if image uses a different GID or for volume permissions
+          # readOnlyRootFilesystem: true # Consider this if the app supports it
         ports:
         - containerPort: 8080
         env:
@@ -46,6 +51,22 @@ spec:
           limits:
             cpu: 500m
             memory: 1Gi
+        livenessProbe:
+          httpGet:
+            path: /openwebui # Matches WEBUI_BASE_PATH
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10 # Open-WebUI can sometimes be slow to respond initially
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /openwebui # Matches WEBUI_BASE_PATH
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          timeoutSeconds: 10
+          failureThreshold: 3
       volumes:
       - name: data
         persistentVolumeClaim:

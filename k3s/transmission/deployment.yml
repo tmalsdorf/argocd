@@ -52,6 +52,22 @@ spec:
             limits:
               memory: "1Gi"   # Maximum memory the container can use
               cpu: "1"       # Maximum CPU the container can use
+          livenessProbe:
+            httpGet:
+              path: /transmission/web/ # Standard path for Transmission WebUI
+              port: 9091
+            initialDelaySeconds: 45
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /transmission/web/
+              port: 9091
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
       volumes:
       - name: transmission-config
         persistentVolumeClaim:

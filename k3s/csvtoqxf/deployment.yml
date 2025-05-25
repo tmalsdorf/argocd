@@ -17,5 +17,36 @@ spec:
       containers:
       - name: csvtoqxf
         image: terryalsdorf/csvtoqxf:latest
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1002 # Example non-root user ID, adjust if image uses a different UID or for volume permissions
+          runAsGroup: 1002 # Example non-root group ID, adjust if image uses a different GID or for volume permissions
+          # readOnlyRootFilesystem: true # Consider if the app supports it
+          # capabilities: # Drop all capabilities if possible
+          #   drop:
+          #   - ALL
         ports:
         - containerPort: 80
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+          limits:
+            cpu: "500m" # Allow some burst for conversion
+            memory: "256Mi"
+        livenessProbe:
+          httpGet:
+            path: / # Assuming the root path serves the application
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
