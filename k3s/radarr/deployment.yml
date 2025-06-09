@@ -33,13 +33,6 @@ spec:
               mountPath: /movies
             - name: downloads
               mountPath: /downloads
-          resources:
-            requests:
-              memory: "512Mi"   # Minimum amount of memory the container needs
-              cpu: "250m"       # Minimum amount of CPU the container needs
-            limits:
-              memory: "1Gi"   # Maximum memory the container can use
-              cpu: "500m"       # Maximum CPU the container can use
       volumes:
         - name: radarr-config
           persistentVolumeClaim:
