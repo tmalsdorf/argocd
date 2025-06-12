@@ -10,6 +10,6 @@ spec:
     app: csvtoqxf
   ports:
     - protocol: TCP
-      port: 8314       # Service port
-      targetPort: 5000 # Container port
+      port: 80      # Service port
+      targetPort: 80 # Matches containerPort
       name: csvtoqxf
