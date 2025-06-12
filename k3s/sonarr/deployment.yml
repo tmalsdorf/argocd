@@ -34,13 +34,6 @@ spec:
               mountPath: /tvshows
             - name: downloads
               mountPath: /downloads
-          resources:
-            requests:
-              memory: "512Mi"   # Minimum amount of memory the container needs
-              cpu: "500m"       # Minimum amount of CPU the container needs
-            limits:
-              memory: "1Gi"   # Maximum memory the container can use
-              cpu: "1"       # Maximum CPU the container can use
           livenessProbe:
             httpGet:
               path: / # Or /api/v3/system/status if a dedicated health endpoint is preferred and known
