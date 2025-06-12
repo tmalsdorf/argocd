@@ -34,22 +34,6 @@ spec:
               mountPath: /tvshows
             - name: downloads
               mountPath: /downloads
-          livenessProbe:
-            httpGet:
-              path: / # Or /api/v3/system/status if a dedicated health endpoint is preferred and known
-              port: 8989
-            initialDelaySeconds: 60 # Give it some time to start
-            periodSeconds: 30
-            timeoutSeconds: 5
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: / # Or /api/v3/system/status
-              port: 8989
-            initialDelaySeconds: 30 # Check sooner for readiness
-            periodSeconds: 15
-            timeoutSeconds: 5
-            failureThreshold: 3
       volumes:
         - name: sonarr-config
           persistentVolumeClaim:
