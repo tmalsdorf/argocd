@@ -11,5 +11,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80      # Service port
-      targetPort: 80 # Matches containerPort
+      targetPort: 5000 # Matches containerPort
       name: csvtoqxf
