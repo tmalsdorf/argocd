@@ -1,26 +1,17 @@
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: open-webui
   namespace: webui
   annotations:
-    # TODO: Replace open-webui.example.com with your actual domain
-    traefik.ingress.kubernetes.io/router.rule: Host(`open-webui.example.com`) && PathPrefix(`/openwebui`)
-    traefik.ingress.kubernetes.io/router.entrypoints: web # Consider using 'websecure' for HTTPS
-    # For HTTPS, you would typically use the 'websecure' entrypoint and configure TLS.
-    # Example for Traefik with Let's Encrypt (ensure you have a CertificateResolver configured):
-    # traefik.ingress.kubernetes.io/router.tls: "true"
-    # traefik.ingress.kubernetes.io/router.tls.certresolver: myresolver 
-    # Or for manual certificate:
-    # traefik.ingress.kubernetes.io/router.tls.secretName: my-tls-secret
-    traefik.ingress.kubernetes.io/router.middlewares: webui-strip
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.middlewares: webui-webui-strip@kubernetescrd
+    traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
   ingressClassName: traefik
-  rules: # The rules section might be redundant if router.rule is fully specified via annotations for Traefik
-         # but it's often kept for compatibility or clarity with other ingress controllers.
-         # For Traefik, the Host() in router.rule typically replaces the need for spec.rules[0].host
-  - http:
+  rules:
+  - host: OPENWEBUI.EXAMPLE.COM
+    http:
       paths:
       - path: /openwebui
         pathType: Prefix
@@ -28,11 +19,12 @@ spec:
           service:
             name: open-webui
             port:
-              number: 8080
-  # tls: # Uncomment and configure for HTTPS
-  # - hosts:
-  #   - open-webui.example.com # Must match the host in router.rule
-  #   secretName: open-webui-tls-secret # Name of the Kubernetes secret containing TLS cert and key
+              number: 80
+  tls:
+  - hosts:
+    - OPENWEBUI.EXAMPLE.COM
+    # provide a secret if you're not using a certresolver on Traefik
+    # secretName: open-webui-tls
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware

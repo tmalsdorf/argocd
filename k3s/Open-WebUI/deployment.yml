@@ -24,23 +24,31 @@ spec:
             - matchExpressions:
               - key: kubernetes.io/arch
                 operator: In
-                values:
-                - amd64
+                values: [ amd64 ]
+      securityContext:
+        fsGroup: 1001
       containers:
       - name: open-webui
         image: ghcr.io/open-webui/open-webui:main
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 1001 # Example non-root user ID, adjust if image uses a different UID or for volume permissions
-          runAsGroup: 1001 # Example non-root group ID, adjust if image uses a different GID or for volume permissions
-          # readOnlyRootFilesystem: true # Consider this if the app supports it
         ports:
         - containerPort: 8080
         env:
-        - name: OLLAMA_BASE_URL
-          value: http://ollama.default.svc.cluster.local:11434
-        - name: WEBUI_BASE_PATH
+        - name: ROOT_PATH
           value: "/openwebui"
+        - name: OLLAMA_BASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: open-webui-config
+              key: OLLAMA_BASE_URL
+        - name: WEBUI_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: open-webui-config
+              key: WEBUI_SECRET_KEY
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1001
+          runAsGroup: 1001
         volumeMounts:
         - name: data
           mountPath: /app/backend/data
@@ -51,19 +59,28 @@ spec:
           limits:
             cpu: 500m
             memory: 1Gi
+        # Open WebUI can take a while on cold start; use startupProbe first
+        startupProbe:
+          httpGet:
+            path: /openwebui
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 30
+          timeoutSeconds: 5
         livenessProbe:
           httpGet:
-            path: /openwebui # Matches WEBUI_BASE_PATH
+            path: /openwebui
             port: 8080
-          initialDelaySeconds: 60
+          initialDelaySeconds: 10
           periodSeconds: 30
-          timeoutSeconds: 10 # Open-WebUI can sometimes be slow to respond initially
+          timeoutSeconds: 10
           failureThreshold: 3
         readinessProbe:
           httpGet:
-            path: /openwebui # Matches WEBUI_BASE_PATH
+            path: /openwebui
             port: 8080
-          initialDelaySeconds: 30
+          initialDelaySeconds: 10
           periodSeconds: 15
           timeoutSeconds: 10
           failureThreshold: 3
@@ -71,5 +88,3 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: open-webui-pvc
-
-
