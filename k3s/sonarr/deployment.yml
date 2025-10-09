@@ -22,11 +22,11 @@ spec:
             - containerPort: 8989
           env:
             - name: PUID
-              value: "1026"  # Set appropriate user ID
+              value: "1026"
             - name: PGID
-              value: "1026"  # Set appropriate group ID
+              value: "1026"
             - name: TZ
-              value: "America/Chicago"  # Set your timezone
+              value: "America/Chicago"
           volumeMounts:
             - name: sonarr-config
               mountPath: /config
@@ -34,14 +34,36 @@ spec:
               mountPath: /tvshows
             - name: downloads
               mountPath: /downloads
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 8989
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 8989
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
       volumes:
         - name: sonarr-config
           persistentVolumeClaim:
-            claimName: pvc-sonarr-config  # You can define a PVC if necessary
+            claimName: pvc-sonarr-config
         - name: tvshows
           persistentVolumeClaim:
             claimName: pvc-tv-shows
         - name: downloads
           persistentVolumeClaim:
             claimName: pvc-torrents
-            readOnly: true
