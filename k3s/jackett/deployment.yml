@@ -36,22 +36,6 @@ spec:
             limits:
               memory: "2Gi"
               cpu: "2"
-          livenessProbe:
-            httpGet:
-              path: / # Or consider /healthz or a more specific API health endpoint if known
-              port: 9117
-            initialDelaySeconds: 45
-            periodSeconds: 30
-            timeoutSeconds: 5
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: / # Or consider /healthz
-              port: 9117
-            initialDelaySeconds: 20
-            periodSeconds: 15
-            timeoutSeconds: 5
-            failureThreshold: 3
       volumes:
         - name: jackett-config
           persistentVolumeClaim:
