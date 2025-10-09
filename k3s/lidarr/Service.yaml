@@ -6,7 +6,7 @@ metadata:
   labels:
     app: lidarr
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: lidarr
   ports:
@@ -14,4 +14,3 @@ spec:
       port: 8686
       targetPort: 8686
       name: lidarr
- 
