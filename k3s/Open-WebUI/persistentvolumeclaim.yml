@@ -6,6 +6,7 @@ metadata:
   namespace: webui
 spec:
   accessModes: [ "ReadWriteOnce" ]
+  storageClassName: "local-path"  # or your cluster's storage class
   resources:
     requests:
       storage: 5Gi
