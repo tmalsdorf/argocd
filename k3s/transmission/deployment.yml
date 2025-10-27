@@ -40,6 +40,8 @@ spec:
             value: ""
           - name: HOST_WHITELIST
             value: ""
+          - name: WATCH_DIR
+            value: /downloads/watch 
           volumeMounts: 
           - name: transmission-config 
             mountPath: /config 
