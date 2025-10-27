@@ -1,4 +1,14 @@
 ---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: lidarr-stripprefix
+  namespace: mediamaven
+spec:
+  stripPrefix:
+    prefixes:
+      - /lidarr
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -6,6 +16,7 @@ metadata:
   namespace: mediamaven
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.middlewares: mediamaven-lidarr-stripprefix@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:

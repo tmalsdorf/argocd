@@ -18,7 +18,7 @@ spec:
     spec:
       containers:    
         - name: transmission
-          image: linuxserver/transmission
+          image: linuxserver/transmission:latest  # Consider pinning: linuxserver/transmission:4.0.5
           ports:
           - containerPort: 9091
             name: webui
@@ -49,14 +49,14 @@ spec:
             mountPath: /downloads
           resources: 
             requests:
-              memory: "512Mi"   # Minimum amount of memory the container needs
-              cpu: "500m"       # Minimum amount of CPU the container needs
+              memory: "512Mi"
+              cpu: "500m"
             limits:
-              memory: "1Gi"   # Maximum memory the container can use
-              cpu: "1"       # Maximum CPU the container can use
+              memory: "2Gi"
+              cpu: "2"
           livenessProbe:
             httpGet:
-              path: /transmission/web/ # Standard path for Transmission WebUI
+              path: /transmission/web/
               port: 9091
             initialDelaySeconds: 45
             periodSeconds: 30
@@ -74,8 +74,6 @@ spec:
       - name: transmission-config
         persistentVolumeClaim:
           claimName: pvc-transmission-config
-          readOnly: false
       - name: downloads
         persistentVolumeClaim:
           claimName: pvc-torrents
-          readOnly: false
