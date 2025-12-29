@@ -10,7 +10,7 @@ spec:
     requests:
       storage: 100Mi  
   volumeName: pv-sonarr-config
-
+  storageClassName: ""
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -24,5 +24,6 @@ spec:
     requests:
       storage: 12Ti
   volumeName: pv-tv-shows
+  storageClassName: ""
 
 
